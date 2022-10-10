@@ -16,7 +16,9 @@
 Automatically scaffold new Go Sync adapters.
 
 ## Installation
+You can install pre-built binaries for supported platforms on our [releases page.](https://github.com/ovotech/go-sync-adapter-gen/releases) 
 
+Alternatively, install via Go:
 ```shell
 go install github.com/ovotech/go-sync-adapter-gen@latest
 ```
