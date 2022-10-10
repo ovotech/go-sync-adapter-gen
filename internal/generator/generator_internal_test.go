@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-//
 type mockSnippet struct {
 	mock.Mock
 }
