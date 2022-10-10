@@ -32,7 +32,6 @@ $ go-sync-adapter-gen FooBar
 Successfully created: FooBar 🎉
 
 $ ls foobar
-
 foobar.go   foobar_internal_test.go
 ```
 
