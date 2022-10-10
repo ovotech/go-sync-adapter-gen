@@ -13,7 +13,7 @@
 
 </div>
 
-Automatically scaffold new Go Sync adapters.
+Automatically scaffold new [Go Sync](https://github.com/ovotech/go-sync) adapters.
 
 ## Installation
 You can install pre-built binaries for supported platforms on our [releases page.](https://github.com/ovotech/go-sync-adapter-gen/releases) 
