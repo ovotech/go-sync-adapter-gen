@@ -27,14 +27,108 @@ an adapter and tests.
 
 ```shell
 $ go-sync-adapter-gen FooBar
-
 Successfully created: FooBar 🎉
 
-$ cd foobar
-$ ls
+$ ls foobar
 
 foobar.go   foobar_internal_test.go
 ```
+
+<details>
+<summary>foobar/foobar.go</summary>
+
+```go
+package foobar
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"github.com/ovotech/go-sync/pkg/ports"
+)
+
+// Ensure the adapter type fully satisfies the ports.Adapter interface.
+var _ ports.Adapter = &FooBar{}
+
+// ErrNotImplemented should be removed after implementation.
+var ErrNotImplemented = errors.New("not_implemented")
+
+type FooBar struct{}
+
+// New instantiates a new adapter.
+func New() *FooBar {
+	return &FooBar{}
+}
+
+// Get a list of things.
+func (f *FooBar) Get(_ context.Context) ([]string, error) {
+	return nil, fmt.Errorf("foobar.get -> %w", ErrNotImplemented)
+}
+
+// Add things to your service.
+func (f *FooBar) Add(_ context.Context, _ []string) error {
+	return fmt.Errorf("foobar.add -> %w", ErrNotImplemented)
+}
+
+// Remove things from your service.
+func (f *FooBar) Remove(_ context.Context, _ []string) error {
+	return fmt.Errorf("foobar.remove -> %w", ErrNotImplemented)
+}
+```
+</details>
+
+<details>
+<summary>foobar/foobar_internal_test.go</summary>
+
+```go
+package foobar
+
+import (
+	"context"
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func TestNew(t *testing.T) {
+	t.Parallel()
+}
+
+func TestFooBar_Get(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.TODO()
+
+	adapter := New()
+	things, err := adapter.Get(ctx)
+
+	assert.NoError(t, err)
+	assert.ElementsMatch(t, things, []string{})
+}
+
+func TestFooBar_Add(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.TODO()
+
+	adapter := New()
+	err := adapter.Add(ctx, []string{"foo"})
+
+	assert.NoError(t, err)
+}
+
+func TestFooBar_Remove(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.TODO()
+
+	adapter := New()
+	err := adapter.Remove(ctx, []string{"bar"})
+
+	assert.NoError(t, err)
+}
+```
+
+</details>
 
 | *Made with 💚 by OVO's DevEx team* |
 |------------------------------------|
