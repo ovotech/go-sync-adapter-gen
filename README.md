@@ -131,5 +131,15 @@ func TestFooBar_Remove(t *testing.T) {
 
 </details>
 
-| *Made with 💚 by OVO's DevEx team* |
-|------------------------------------|
+### Made with 💚 by OVO Energy's DevEx team
+
+<div>
+
+![DevEx](./assets/devex.png)
+![Platforms](./assets/platforms.png)
+![Tools](./assets/tools.png)
+![Golden Paths](./assets/golden_paths.png)
+![Guard Rails](./assets/guard_rails.png)
+![For You](./assets/for_you.png)
+
+</div>
