@@ -3,7 +3,7 @@ module github.com/ovotech/go-sync-adapter-gen
 go 1.18
 
 require (
-	github.com/dave/jennifer v1.5.1
+	github.com/dave/jennifer v1.6.0
 	github.com/stretchr/testify v1.8.0
 )
 
