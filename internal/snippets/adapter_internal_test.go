@@ -16,27 +16,11 @@ func TestEnsureAdapterTypeSatisfiesInterface(t *testing.T) {
 
 	assert.Equal(t, fmt.Sprintf(`package test
 
-import ports "github.com/ovotech/go-sync/pkg/ports"
+import gosync "github.com/ovotech/go-sync"
 
 // %s
-var _ ports.Adapter = &Test{}
+var _ gosync.Adapter = &Test{}
 `, ensureAdapterInterfaceComment), out())
-}
-
-func TestErrNotImplemented(t *testing.T) {
-	t.Parallel()
-
-	f, out := jenHelper(t)
-
-	ErrNotImplemented(f, "")
-
-	assert.Equal(t, fmt.Sprintf(`package test
-
-import "errors"
-
-// %s
-var ErrNotImplemented = errors.New("not_implemented")
-`, errNotImplementedComment), out())
 }
 
 func TestEmptyAdapterStruct(t *testing.T) {
@@ -80,11 +64,12 @@ func TestGetMethod(t *testing.T) {
 import (
 	"context"
 	"fmt"
+	gosync "github.com/ovotech/go-sync"
 )
 
 // %s
 func (t *Test) Get(_ context.Context) ([]string, error) {
-	return nil, fmt.Errorf("test.get -> %%w", ErrNotImplemented)
+	return nil, fmt.Errorf("test.get -> %%w", gosync.ErrNotImplemented)
 }
 `, getComment), out())
 }
@@ -101,11 +86,12 @@ func TestAddMethod(t *testing.T) {
 import (
 	"context"
 	"fmt"
+	gosync "github.com/ovotech/go-sync"
 )
 
 // %s
 func (t *Test) Add(_ context.Context, _ []string) error {
-	return fmt.Errorf("test.add -> %%w", ErrNotImplemented)
+	return fmt.Errorf("test.add -> %%w", gosync.ErrNotImplemented)
 }
 `, addComment), out())
 }
@@ -122,11 +108,12 @@ func TestRemoveMethod(t *testing.T) {
 import (
 	"context"
 	"fmt"
+	gosync "github.com/ovotech/go-sync"
 )
 
 // %s
 func (t *Test) Remove(_ context.Context, _ []string) error {
-	return fmt.Errorf("test.remove -> %%w", ErrNotImplemented)
+	return fmt.Errorf("test.remove -> %%w", gosync.ErrNotImplemented)
 }
 `, removeComment), out())
 }

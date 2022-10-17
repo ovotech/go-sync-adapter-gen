@@ -20,10 +20,8 @@ func exec(name string) error {
 
 	err = generator.New(
 		name,
-		generator.WithImport("github.com/ovotech/go-sync/pkg/ports", "ports"),
 		generator.WithGenerators(
 			snippets.EnsureAdapterTypeSatisfiesInterface,
-			snippets.ErrNotImplemented,
 			snippets.EmptyAdapterStruct,
 			snippets.NewAdapter,
 			snippets.GetMethod,

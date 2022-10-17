@@ -8,8 +8,7 @@ import (
 )
 
 const (
-	ensureAdapterInterfaceComment = "Ensure the adapter type fully satisfies the ports.Adapter interface."
-	errNotImplementedComment      = "ErrNotImplemented should be removed after implementation."
+	ensureAdapterInterfaceComment = "Ensure the adapter type fully satisfies the gosync.Adapter interface."
 	newComment                    = "New instantiates a new adapter."
 	getComment                    = "Get a list of things."
 	addComment                    = "Add things to your service."
@@ -18,14 +17,8 @@ const (
 
 func EnsureAdapterTypeSatisfiesInterface(f *jen.File, adapter string) {
 	f.Comment(ensureAdapterInterfaceComment)
-	f.Var().Id("_").Qual("github.com/ovotech/go-sync/pkg/ports", "Adapter").
+	f.Var().Id("_").Qual("github.com/ovotech/go-sync", "Adapter").
 		Op("=").Op("&").Id(adapter).Op("{}").Line()
-}
-
-func ErrNotImplemented(f *jen.File, _ string) {
-	f.Comment(errNotImplementedComment)
-	f.Var().Id("ErrNotImplemented").Op("=").Qual("errors", "New").Call(jen.Lit("not_implemented"))
-	f.Line()
 }
 
 func EmptyAdapterStruct(f *jen.File, adapter string) {
@@ -52,7 +45,10 @@ func wrappedNotImplemented(adapter string, method string) *jen.Statement {
 	packageName := strings.ToLower(adapter)
 
 	return jen.Qual("fmt", "Errorf").
-		Call(jen.Lit(fmt.Sprintf("%s.%s -> %%w", packageName, method)), jen.Id("ErrNotImplemented"))
+		Call(
+			jen.Lit(fmt.Sprintf("%s.%s -> %%w", packageName, method)),
+			jen.Qual("github.com/ovotech/go-sync", "ErrNotImplemented"),
+		)
 }
 
 func GetMethod(f *jen.File, adapter string) { //nolint:varnamelen
