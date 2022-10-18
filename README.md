@@ -39,41 +39,51 @@ foobar.go   foobar_internal_test.go
 <summary>foobar/foobar.go</summary>
 
 ```go
-package foobar
+package example
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"github.com/ovotech/go-sync/pkg/ports"
+	gosync "github.com/ovotech/go-sync"
 )
 
-// Ensure the adapter type fully satisfies the ports.Adapter interface.
-var _ ports.Adapter = &FooBar{}
+var (
+	_ gosync.Adapter = &Example{} // Ensure Example fully satisfies the gosync.Adapter interface.
+	_ gosync.InitFn  = Init       // Ensure the Init function fully satisfies the gosync.InitFn type.
+)
 
-// ErrNotImplemented should be removed after implementation.
-var ErrNotImplemented = errors.New("not_implemented")
+type Example struct{}
 
-type FooBar struct{}
-
-// New instantiates a new adapter.
-func New() *FooBar {
-	return &FooBar{}
+// Get things in Example service.
+func (e *Example) Get(_ context.Context) ([]string, error) {
+	return nil, fmt.Errorf("example.get -> %w", gosync.ErrNotImplemented)
 }
 
-// Get a list of things.
-func (f *FooBar) Get(_ context.Context) ([]string, error) {
-	return nil, fmt.Errorf("foobar.get -> %w", ErrNotImplemented)
+// Add things to Example service.
+func (e *Example) Add(_ context.Context, _ []string) error {
+	return fmt.Errorf("example.add -> %w", gosync.ErrNotImplemented)
 }
 
-// Add things to your service.
-func (f *FooBar) Add(_ context.Context, _ []string) error {
-	return fmt.Errorf("foobar.add -> %w", ErrNotImplemented)
+// Remove things from Example service.
+func (e *Example) Remove(_ context.Context, _ []string) error {
+	return fmt.Errorf("example.remove -> %w", gosync.ErrNotImplemented)
 }
 
-// Remove things from your service.
-func (f *FooBar) Remove(_ context.Context, _ []string) error {
-	return fmt.Errorf("foobar.remove -> %w", ErrNotImplemented)
+// New Example gosync.adapter.
+func New() *Example {
+	return &Example{}
+}
+
+// Init a new Example gosync.Adapter.
+func Init(config map[gosync.ConfigKey]string) (gosync.Adapter, error) {
+	// Required ConfigKeys to initialise this adapter.
+	for _, key := range []gosync.ConfigKey{} {
+		if _, ok := config[key]; !ok {
+			return nil, fmt.Errorf("example.init -> %w(%s)", gosync.ErrMissingConfig, key)
+		}
+	}
+
+	return New(), nil
 }
 ```
 </details>
@@ -82,10 +92,11 @@ func (f *FooBar) Remove(_ context.Context, _ []string) error {
 <summary>foobar/foobar_internal_test.go</summary>
 
 ```go
-package foobar
+package example
 
 import (
 	"context"
+	gosync "github.com/ovotech/go-sync"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -94,7 +105,7 @@ func TestNew(t *testing.T) {
 	t.Parallel()
 }
 
-func TestFooBar_Get(t *testing.T) {
+func TestExample_Get(t *testing.T) {
 	t.Parallel()
 
 	ctx := context.TODO()
@@ -106,7 +117,7 @@ func TestFooBar_Get(t *testing.T) {
 	assert.ElementsMatch(t, things, []string{})
 }
 
-func TestFooBar_Add(t *testing.T) {
+func TestExample_Add(t *testing.T) {
 	t.Parallel()
 
 	ctx := context.TODO()
@@ -117,7 +128,7 @@ func TestFooBar_Add(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestFooBar_Remove(t *testing.T) {
+func TestExample_Remove(t *testing.T) {
 	t.Parallel()
 
 	ctx := context.TODO()
@@ -126,6 +137,19 @@ func TestFooBar_Remove(t *testing.T) {
 	err := adapter.Remove(ctx, []string{"bar"})
 
 	assert.NoError(t, err)
+}
+
+func TestInit(t *testing.T) {
+	t.Parallel()
+
+	t.Run("success", func(t *testing.T) {
+		t.Parallel()
+
+		adapter, err := Init(map[gosync.ConfigKey]string{})
+
+		assert.NoError(t, err)
+		assert.IsType(t, &Example{}, adapter)
+	})
 }
 ```
 
