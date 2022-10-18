@@ -60,3 +60,19 @@ func TestRemove(f *jen.File, adapter string) { //nolint:varnamelen,dupl
 	)
 	f.Line()
 }
+
+func TestInit(f *jen.File, adapter string) {
+	f.Func().Id("TestInit").Params(getTestParams()).Block(
+		jen.Id(string('t')).Dot("Parallel").Call(),
+		jen.Line(),
+		jen.Id("t").Dot("Run").Call(jen.Lit("success"), jen.Func().Params(jen.Id("t").Op("*").Qual("testing", "T")).Block(
+			jen.Id(string('t')).Dot("Parallel").Call(),
+			jen.Line(),
+			jen.Id("adapter").Op(",").Id("err").Op(":=").Id("Init").Call(jen.Map(jen.Qual("github.com/ovotech/go-sync", "ConfigKey")).String().Op("{}")),
+			jen.Line(),
+			jen.Qual("github.com/stretchr/testify/assert", "NoError").Call(jen.Id("t"), jen.Id("err")),
+			jen.Qual("github.com/stretchr/testify/assert", "IsType").Call(jen.Id("t"), jen.Op("&").Id(adapter).Op("{}"), jen.Id("adapter")),
+		)),
+	)
+	f.Line()
+}

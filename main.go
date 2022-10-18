@@ -21,12 +21,13 @@ func exec(name string) error {
 	err = generator.New(
 		name,
 		generator.WithGenerators(
-			snippets.EnsureAdapterTypeSatisfiesInterface,
+			snippets.EnsureTypesSatisfy,
 			snippets.EmptyAdapterStruct,
-			snippets.NewAdapter,
 			snippets.GetMethod,
 			snippets.AddMethod,
 			snippets.RemoveMethod,
+			snippets.NewAdapter,
+			snippets.InitFn,
 		),
 	).Run(lowerCaseAdapterName)
 	if err != nil {
@@ -41,6 +42,7 @@ func exec(name string) error {
 			snippets.TestGet,
 			snippets.TestAdd,
 			snippets.TestRemove,
+			snippets.TestInit,
 		),
 	).Run(fmt.Sprintf("%s_internal_test", lowerCaseAdapterName))
 	if err != nil {

@@ -107,3 +107,33 @@ func TestTest_Remove(t *testing.T) {
 }
 `, out())
 }
+
+func TestTestInit(t *testing.T) {
+	t.Parallel()
+
+	f, out := jenHelper(t)
+
+	TestInit(f, "Test")
+
+	assert.Equal(t, `package test
+
+import (
+	gosync "github.com/ovotech/go-sync"
+	assert "github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func TestInit(t *testing.T) {
+	t.Parallel()
+
+	t.Run("success", func(t *testing.T) {
+		t.Parallel()
+
+		adapter, err := Init(map[gosync.ConfigKey]string{})
+
+		assert.NoError(t, err)
+		assert.IsType(t, &Test{}, adapter)
+	})
+}
+`, out())
+}
