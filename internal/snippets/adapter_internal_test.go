@@ -12,15 +12,17 @@ func TestEnsureAdapterTypeSatisfiesInterface(t *testing.T) {
 
 	f, out := jenHelper(t)
 
-	EnsureAdapterTypeSatisfiesInterface(f, "Test")
+	EnsureTypesSatisfy(f, "Test")
 
 	assert.Equal(t, fmt.Sprintf(`package test
 
 import gosync "github.com/ovotech/go-sync"
 
-// %s
-var _ gosync.Adapter = &Test{}
-`, ensureAdapterInterfaceComment), out())
+var (
+	_ gosync.Adapter = &Test{} // %s
+	_ gosync.InitFn  = Init    // %s
+)
+`, fmt.Sprintf(ensureAdapterInterfaceComment, "Test"), ensureInitFnComment), out())
 }
 
 func TestEmptyAdapterStruct(t *testing.T) {
@@ -34,22 +36,6 @@ func TestEmptyAdapterStruct(t *testing.T) {
 
 type Test struct{}
 `, out())
-}
-
-func TestNewAdapter(t *testing.T) {
-	t.Parallel()
-
-	f, out := jenHelper(t)
-
-	NewAdapter(f, "Test")
-
-	assert.Equal(t, fmt.Sprintf(`package test
-
-// %s
-func New() *Test {
-	return &Test{}
-}
-`, newComment), out())
 }
 
 func TestGetMethod(t *testing.T) {
@@ -71,7 +57,7 @@ import (
 func (t *Test) Get(_ context.Context) ([]string, error) {
 	return nil, fmt.Errorf("test.get -> %%w", gosync.ErrNotImplemented)
 }
-`, getComment), out())
+`, fmt.Sprintf(getComment, "Test")), out())
 }
 
 func TestAddMethod(t *testing.T) {
@@ -93,7 +79,7 @@ import (
 func (t *Test) Add(_ context.Context, _ []string) error {
 	return fmt.Errorf("test.add -> %%w", gosync.ErrNotImplemented)
 }
-`, addComment), out())
+`, fmt.Sprintf(addComment, "Test")), out())
 }
 
 func TestRemoveMethod(t *testing.T) {
@@ -115,5 +101,49 @@ import (
 func (t *Test) Remove(_ context.Context, _ []string) error {
 	return fmt.Errorf("test.remove -> %%w", gosync.ErrNotImplemented)
 }
-`, removeComment), out())
+`, fmt.Sprintf(removeComment, "Test")), out())
+}
+
+func TestNewAdapter(t *testing.T) {
+	t.Parallel()
+
+	f, out := jenHelper(t)
+
+	NewAdapter(f, "Test")
+
+	assert.Equal(t, fmt.Sprintf(`package test
+
+// %s
+func New() *Test {
+	return &Test{}
+}
+`, fmt.Sprintf(newComment, "Test")), out())
+}
+
+func TestInitFn(t *testing.T) {
+	t.Parallel()
+
+	f, out := jenHelper(t)
+
+	InitFn(f, "Test")
+
+	assert.Equal(t, fmt.Sprintf(`package test
+
+import (
+	"fmt"
+	gosync "github.com/ovotech/go-sync"
+)
+
+// %s
+func Init(config map[gosync.ConfigKey]string) (gosync.Adapter, error) {
+	// %s
+	for _, key := range []gosync.ConfigKey{} {
+		if _, ok := config[key]; !ok {
+			return nil, fmt.Errorf("test.init -> %%w(%%s)", gosync.ErrMissingConfig, key)
+		}
+	}
+
+	return New(), nil
+}
+`, fmt.Sprintf(initFnComment, "Test"), requiredKeysComment), out())
 }
