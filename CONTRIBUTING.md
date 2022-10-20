@@ -12,11 +12,7 @@ The version of Go you want can be [found here](https://github.com/ovotech/go-syn
 We also run the following tooling to ensure code quality:
 
 1. [golangci-lint](https://golangci-lint.run/) for code quality.
-2. [mockery](https://github.com/vektra/mockery) generates mocks for easy testing.
-   ```sh
-   go install github.com/vektra/mockery/v2@latest
-   ```
-3. [gci](https://github.com/daixiang0/gci) for consistent, deterministic imports.
+2. [gci](https://github.com/daixiang0/gci) for consistent, deterministic imports.
    ```shell
    go install github.com/daixiang0/gci@latest
    ```
@@ -29,3 +25,4 @@ repo containing common commands to assist with this.
 | `make` / `make help` | Display list of available commands. |
 | `make lint`          | Lint Go Sync.                       |
 | `make fix`           | Fix some common linter errors.      |
+| `make generate`      | Regenerate snapshots for testing.   |
