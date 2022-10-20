@@ -1,0 +1,8 @@
+package test
+
+import gosync "github.com/ovotech/go-sync"
+
+var (
+	_ gosync.Adapter = &Test{} // Ensure [test.Test] fully satisfies the [gosync.Adapter] interface.
+	_ gosync.InitFn  = Init    // Ensure the [test.Init] function fully satisfies the [gosync.InitFn] type.
+)

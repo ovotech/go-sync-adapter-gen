@@ -1,0 +1,12 @@
+package test
+
+import (
+	"context"
+	"fmt"
+	gosync "github.com/ovotech/go-sync"
+)
+
+// Add things to Test service.
+func (t *Test) Add(_ context.Context, _ []string) error {
+	return fmt.Errorf("test.add -> %w", gosync.ErrNotImplemented)
+}

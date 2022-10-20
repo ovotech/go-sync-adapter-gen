@@ -1,0 +1,6 @@
+package test
+
+// New Test [gosync.adapter].
+func New() *Test {
+	return &Test{}
+}

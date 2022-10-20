@@ -1,0 +1,18 @@
+package test
+
+import (
+	"context"
+	gosync "github.com/ovotech/go-sync"
+	"log"
+)
+
+func ExampleInit() {
+	ctx := context.Background()
+
+	adapter, err := test.Init(ctx, map[gosync.ConfigKey]string{test.AnExampleConfig: "example"})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	gosync.New(adapter)
+}
