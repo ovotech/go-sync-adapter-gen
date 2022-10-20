@@ -1,0 +1,23 @@
+package test
+
+import (
+	"context"
+	gosync "github.com/ovotech/go-sync"
+	assert "github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func TestInit(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.TODO()
+
+	t.Run("success", func(t *testing.T) {
+		t.Parallel()
+
+		adapter, err := Init(ctx, map[gosync.ConfigKey]string{})
+
+		assert.NoError(t, err)
+		assert.IsType(t, &Test{}, adapter)
+	})
+}

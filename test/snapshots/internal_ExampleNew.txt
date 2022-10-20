@@ -1,0 +1,9 @@
+package test
+
+import gosync "github.com/ovotech/go-sync"
+
+func ExampleNew() {
+	adapter := test.New()
+
+	gosync.New(adapter)
+}

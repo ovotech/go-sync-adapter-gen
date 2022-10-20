@@ -1,0 +1,24 @@
+package test
+
+import (
+	"context"
+	"fmt"
+	gosync "github.com/ovotech/go-sync"
+)
+
+/*
+Init a new Test [gosync.Adapter].
+
+Required config:
+  - [test.AnExampleConfig]
+*/
+func Init(_ context.Context, config map[gosync.ConfigKey]string) (gosync.Adapter, error) {
+	// Required [gosync.ConfigKeys] to initialise this adapter.
+	for _, key := range []gosync.ConfigKey{AnExampleConfig} {
+		if _, ok := config[key]; !ok {
+			return nil, fmt.Errorf("test.init -> %w(%s)", gosync.ErrMissingConfig, key)
+		}
+	}
+
+	return New(), nil
+}

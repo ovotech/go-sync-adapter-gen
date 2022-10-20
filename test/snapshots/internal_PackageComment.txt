@@ -1,0 +1,6 @@
+/*
+Package test synchronises things with Test.
+
+TODO: Write documentation.
+*/
+package test

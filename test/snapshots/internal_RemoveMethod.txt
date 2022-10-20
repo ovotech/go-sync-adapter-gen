@@ -1,0 +1,12 @@
+package test
+
+import (
+	"context"
+	"fmt"
+	gosync "github.com/ovotech/go-sync"
+)
+
+// Remove things from Test service.
+func (t *Test) Remove(_ context.Context, _ []string) error {
+	return fmt.Errorf("test.remove -> %w", gosync.ErrNotImplemented)
+}

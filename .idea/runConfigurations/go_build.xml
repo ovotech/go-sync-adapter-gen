@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="go-sync-adapter-gen" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="Example" />
+    <EXTENSION ID="com.fapiko.jetbrains.plugins.better_direnv.runconfigs.GolandRunConfigurationExtension">
+      <option name="DIRENV_ENABLED" value="false" />
+      <option name="DIRENV_TRUSTED" value="false" />
+    </EXTENSION>
+    <kind value="PACKAGE" />
+    <package value="github.com/ovotech/go-sync-adapter-gen/cmd" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/cmd/cli/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

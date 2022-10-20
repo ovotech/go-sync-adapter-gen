@@ -1,0 +1,19 @@
+package test
+
+import (
+	"context"
+	assert "github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func TestTest_Get(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.TODO()
+
+	adapter := New()
+	things, err := adapter.Get(ctx)
+
+	assert.NoError(t, err)
+	assert.ElementsMatch(t, things, []string{})
+}

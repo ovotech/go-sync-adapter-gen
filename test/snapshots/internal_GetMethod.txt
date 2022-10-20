@@ -1,0 +1,12 @@
+package test
+
+import (
+	"context"
+	"fmt"
+	gosync "github.com/ovotech/go-sync"
+)
+
+// Get things in Test service.
+func (t *Test) Get(_ context.Context) ([]string, error) {
+	return nil, fmt.Errorf("test.get -> %w", gosync.ErrNotImplemented)
+}

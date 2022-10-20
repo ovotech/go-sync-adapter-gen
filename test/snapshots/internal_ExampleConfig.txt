@@ -1,0 +1,6 @@
+package test
+
+import gosync "github.com/ovotech/go-sync"
+
+// AnExampleConfig is an example config for use with [test.Init].
+const AnExampleConfig gosync.ConfigKey = "test_example_config" // TODO: Remove and replace with config.
