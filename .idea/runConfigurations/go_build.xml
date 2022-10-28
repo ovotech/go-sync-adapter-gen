@@ -8,7 +8,7 @@
       <option name="DIRENV_TRUSTED" value="false" />
     </EXTENSION>
     <kind value="PACKAGE" />
-    <package value="github.com/ovotech/go-sync-adapter-gen/cmd" />
+    <package value="github.com/ovotech/go-sync-adapter-gen" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$/cmd/cli/main.go" />
     <method v="2" />
